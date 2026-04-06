@@ -103,6 +103,7 @@ export default function Home() {
           </div>
         </div>
       </div>
+      <p>Made by: Momotaj Akther Happy - CSE - 2430798</p>
     </div>
   );
 }

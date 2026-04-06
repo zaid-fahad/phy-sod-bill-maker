@@ -1,5 +1,6 @@
 import { useMemo } from "react";
 import { calculateHours } from "./TimesheetForm";
+import iubLogo from '../assets/iub.png';
 
 const formatAppDate = (dateString) => {
   if (!dateString) return '';
@@ -60,7 +61,8 @@ export default function BillPreview({ data }) {
         {/* Left-pinned Logo */}
         <div className="absolute left-0 top-1/2 -translate-y-1/2 w-48 h-48 rounded-full flex items-center justify-center ">
           {/* <span className="text-xs text-gray-400">Logo</span> */}
-          <img src="src\assets\iub.png" alt="" />
+          {/* <img src="src\assets\iub.png" alt="" /> */}
+          <img src={iubLogo} alt="IUB Logo" />
         </div>
 
         {/* Truly Centered Content */}

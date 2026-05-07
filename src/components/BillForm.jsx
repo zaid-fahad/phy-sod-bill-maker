@@ -22,6 +22,14 @@ export default function BillForm({ formData, setFormData }) {
       
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
         <div className="md:col-span-2">
+          <label className="block text-sm font-medium text-gray-700 mb-1">Department</label>
+          <input type="text" name="department" value={formData.department} onChange={handleChange} className="w-full p-2 border rounded-md" />
+        </div>
+        <div className="md:col-span-2">
+          <label className="block text-sm font-medium text-gray-700 mb-1">School / Faculty</label>
+          <input type="text" name="school" value={formData.school} onChange={handleChange} className="w-full p-2 border rounded-md" />
+        </div>
+        <div className="md:col-span-2">
           <label className="block text-sm font-medium text-gray-700 mb-1">Student Name</label>
           <input type="text" name="studentName" value={formData.studentName} onChange={handleChange} className="w-full p-2 border rounded-md" />
         </div>
@@ -31,7 +39,7 @@ export default function BillForm({ formData, setFormData }) {
         </div>
         <div>
           <label className="block text-sm font-medium text-gray-700 mb-1">Mobile Number</label>
-          <input type="text" name="mobile" value={formData.mobile} onChange={handleChange} className="w-full p-2 border rounded-md" />
+          <input type="tel" name="mobile" value={formData.mobile} onChange={handleChange} className="w-full p-2 border rounded-md" />
         </div>
         <div className="md:col-span-2">
           <label className="block text-sm font-medium text-gray-700 mb-1">Faculty Name</label>

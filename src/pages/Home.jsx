@@ -7,6 +7,8 @@ import BillPreview from '../components/BillPreview';
 export default function Home() {
   const [formData, setFormData] = useState({
     month: 'March 2026',
+    department: 'Department of Physical Sciences',
+    school: 'School of Engineering, Technology & Sciences',
     studentName: 'your name',
     studentId: 'student id',
     mobile: '01xxxxxx',

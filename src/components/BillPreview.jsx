@@ -68,8 +68,8 @@ export default function BillPreview({ data }) {
         {/* Truly Centered Content */}
         <div className="text-center px-28"> 
           <h1 className="text-2xl font-bold tracking-wide uppercase">Independent University, Bangladesh</h1>
-          <h2 className="text-lg font-semibold mt-1">Department of Physical Sciences</h2>
-          <h3 className="text-md font-medium mt-1">School of Engineering, Technology & Sciences</h3>
+          <h2 className="text-lg font-semibold mt-1">{data.department}</h2>
+          <h3 className="text-md font-medium mt-1">{data.school}</h3>
           <h4 className="text-md font-bold mt-4">SoD Bill for the Month of {data.month}</h4>
         </div>
       </div>

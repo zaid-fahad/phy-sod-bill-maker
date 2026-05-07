@@ -69,8 +69,20 @@ export default function Home() {
     }
   };
 
+  const handleAddRow = () => {
+    setFormData((prev) => ({
+      ...prev,
+      entries: [
+        ...prev.entries,
+        { id: Date.now(), week: 'Week 1', date: '', start: '', end: '' }
+      ]
+    }));
+    // On mobile, if we add a row, we should probably be in the edit tab
+    setActiveTab('edit');
+  };
+
   return (
-    <div className="min-h-screen bg-gray-50 flex flex-col">
+    <div className="min-h-screen bg-gray-50 flex flex-col pb-20 lg:pb-0">
       <Header />
       
       <main className="flex-grow max-w-7xl mx-auto w-full px-4 sm:px-6 lg:px-8 py-8">
@@ -149,6 +161,42 @@ export default function Home() {
       </main>
 
       <Footer />
+
+      {/* Sticky Mobile Bar */}
+      <div className="lg:hidden fixed bottom-0 left-0 right-0 bg-white border-t border-gray-200 p-4 z-50 shadow-[0_-4px_10px_rgba(0,0,0,0.05)]">
+        <div className="flex gap-3">
+          <button 
+            onClick={handleAddRow}
+            className="flex-1 bg-gray-900 text-white py-3 rounded-xl font-bold flex items-center justify-center gap-2 shadow-lg active:scale-95 transition-transform"
+          >
+            <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
+            </svg>
+            Add Row
+          </button>
+          <button 
+            onClick={handleDownloadPdf}
+            disabled={isGenerating}
+            className={`flex-1 py-3 rounded-xl font-bold flex items-center justify-center gap-2 shadow-lg active:scale-95 transition-transform ${
+              isGenerating ? "bg-gray-400 text-white" : "bg-blue-600 text-white"
+            }`}
+          >
+            {isGenerating ? (
+              <svg className="animate-spin h-5 w-5 text-white" viewBox="0 0 24 24">
+                <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+              </svg>
+            ) : (
+              <>
+                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
+                </svg>
+                PDF
+              </>
+            )}
+          </button>
+        </div>
+      </div>
     </div>
-  )
+  );
 }

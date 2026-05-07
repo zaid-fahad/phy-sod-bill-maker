@@ -23,6 +23,7 @@ export default function Home() {
     ]
   });
 
+  const [activeTab, setActiveTab] = useState('edit'); // 'edit' or 'preview'
   const printRef = useRef(null);
   const [isGenerating, setIsGenerating] = useState(false);
 
@@ -67,45 +68,71 @@ export default function Home() {
   };
 
   return (
-    <div className="max-w-7xl mx-auto flex flex-col lg:flex-row gap-8">
-      {/* Left Column: Form */}
-      <div className="w-full lg:w-[45%] bg-white p-6 rounded-xl shadow-sm border border-gray-200 h-fit">
-        <h1 className="text-2xl font-bold mb-6 text-gray-900">Bill Generator</h1>
-        <BillForm formData={formData} setFormData={setFormData} />
+    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+      {/* Mobile Tabs */}
+      <div className="flex lg:hidden mb-6 bg-white p-1 rounded-lg border border-gray-200 shadow-sm">
+        <button 
+          onClick={() => setActiveTab('edit')}
+          className={`flex-1 py-2 text-sm font-medium rounded-md transition-all ${
+            activeTab === 'edit' ? 'bg-blue-600 text-white shadow-md' : 'text-gray-600 hover:bg-gray-50'
+          }`}
+        >
+          Edit Form
+        </button>
+        <button 
+          onClick={() => setActiveTab('preview')}
+          className={`flex-1 py-2 text-sm font-medium rounded-md transition-all ${
+            activeTab === 'preview' ? 'bg-blue-600 text-white shadow-md' : 'text-gray-600 hover:bg-gray-50'
+          }`}
+        >
+          Preview Bill
+        </button>
       </div>
 
-      {/* Right Column: Preview & Download */}
-      <div className="w-full lg:w-[55%] flex flex-col gap-4">
-        <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-4 bg-white p-4 rounded-xl shadow-sm border border-gray-200">
-          <h2 className="text-xl font-semibold text-gray-900">Document Preview</h2>
-          <button 
-            onClick={handleDownloadPdf}
-            disabled={isGenerating}
-            className={`px-5 py-2.5 rounded-lg font-medium transition-colors shadow-sm flex items-center justify-center min-w-[160px] ${
-              isGenerating 
-                ? "bg-gray-400 cursor-not-allowed text-white" 
-                : "bg-blue-600 hover:bg-blue-700 text-white cursor-pointer"
-            }`}
-          >
-            {isGenerating ? (
-              <span className="flex items-center gap-2">
-                <svg className="animate-spin h-4 w-4 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"><circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle><path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path></svg>
-                Generating...
-              </span>
-            ) : (
-              "Download PDF"
-            )}
-          </button>
+      <div className="lg:grid lg:grid-cols-12 lg:gap-8 items-start">
+        {/* Left Column: Form */}
+        <div className={`lg:col-span-5 ${activeTab === 'edit' ? 'block' : 'hidden lg:block'}`}>
+          <div className="bg-white p-6 rounded-xl shadow-sm border border-gray-200">
+            <h1 className="text-2xl font-bold mb-6 text-gray-900 hidden lg:block">Bill Generator</h1>
+            <BillForm formData={formData} setFormData={setFormData} />
+          </div>
         </div>
-        
-        <div className="overflow-x-auto bg-white shadow-lg rounded-xl border border-gray-200 p-2">
-          {/* Print container */}
-          <div className="min-w-[750px] mx-auto p-8 bg-white" ref={printRef}>
-            <BillPreview data={formData} />
+
+        {/* Right Column: Preview & Download */}
+        <div className={`lg:col-span-7 flex flex-col gap-6 lg:sticky lg:top-8 ${activeTab === 'preview' ? 'block' : 'hidden lg:block'}`}>
+          <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-4 bg-white p-4 rounded-xl shadow-sm border border-gray-200">
+            <h2 className="text-xl font-semibold text-gray-900">Document Preview</h2>
+            <button 
+              onClick={handleDownloadPdf}
+              disabled={isGenerating}
+              className={`px-5 py-2.5 rounded-lg font-medium transition-colors shadow-sm flex items-center justify-center min-w-[160px] ${
+                isGenerating 
+                  ? "bg-gray-400 cursor-not-allowed text-white" 
+                  : "bg-blue-600 hover:bg-blue-700 text-white cursor-pointer"
+              }`}
+            >
+              {isGenerating ? (
+                <span className="flex items-center gap-2">
+                  <svg className="animate-spin h-4 w-4 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"><circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle><path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path></svg>
+                  Generating...
+                </span>
+              ) : (
+                "Download PDF"
+              )}
+            </button>
+          </div>
+          
+          <div className="overflow-x-auto bg-white shadow-lg rounded-xl border border-gray-200 p-2 lg:p-4">
+            {/* Print container */}
+            <div className="min-w-[750px] mx-auto p-4 lg:p-8 bg-white" ref={printRef}>
+              <BillPreview data={formData} />
+            </div>
           </div>
         </div>
       </div>
-      <p>Made by: Momotaj Akther Happy - CSE - 2430798</p>
+      <div className="mt-12 text-center text-gray-500 text-sm">
+        <p>Made by: Momotaj Akther Happy - CSE - 2430798</p>
+      </div>
     </div>
-  );
+  )
 }

@@ -26,6 +26,7 @@ export default function Home() {
   });
 
   const [activeTab, setActiveTab] = useState('edit'); // 'edit' or 'preview'
+  const [lastAddedId, setLastAddedId] = useState(null);
   const printRef = useRef(null);
   const [isGenerating, setIsGenerating] = useState(false);
 
@@ -70,13 +71,15 @@ export default function Home() {
   };
 
   const handleAddRow = () => {
+    const newId = Date.now();
     setFormData((prev) => ({
       ...prev,
       entries: [
         ...prev.entries,
-        { id: Date.now(), week: 'Week 1', date: '', start: '', end: '' }
+        { id: newId, week: 'Week 1', date: '', start: '', end: '' }
       ]
     }));
+    setLastAddedId(newId);
     // On mobile, if we add a row, we should probably be in the edit tab
     setActiveTab('edit');
   };
@@ -86,24 +89,26 @@ export default function Home() {
       <Header />
       
       <main className="flex-grow max-w-7xl mx-auto w-full px-4 sm:px-6 lg:px-8 py-8">
-        {/* Mobile Tabs */}
-        <div className="flex lg:hidden mb-6 bg-white p-1 rounded-lg border border-gray-200 shadow-sm">
-          <button 
-            onClick={() => setActiveTab('edit')}
-            className={`flex-1 py-2 text-sm font-medium rounded-md transition-all ${
-              activeTab === 'edit' ? 'bg-blue-600 text-white shadow-md' : 'text-gray-600 hover:bg-gray-50'
-            }`}
-          >
-            Edit Form
-          </button>
-          <button 
-            onClick={() => setActiveTab('preview')}
-            className={`flex-1 py-2 text-sm font-medium rounded-md transition-all ${
-              activeTab === 'preview' ? 'bg-blue-600 text-white shadow-md' : 'text-gray-600 hover:bg-gray-50'
-            }`}
-          >
-            Preview Bill
-          </button>
+        {/* Mobile Tabs - Sticky */}
+        <div className="lg:hidden sticky top-16 z-30 bg-gray-50/95 backdrop-blur-sm py-3 mb-6 -mx-4 px-4 sm:-mx-6 sm:px-6">
+          <div className="bg-white p-1 rounded-lg border border-gray-200 shadow-sm flex">
+            <button 
+              onClick={() => setActiveTab('edit')}
+              className={`flex-1 py-2 text-sm font-medium rounded-md transition-all ${
+                activeTab === 'edit' ? 'bg-blue-600 text-white shadow-md' : 'text-gray-600 hover:bg-gray-50'
+              }`}
+            >
+              Edit Form
+            </button>
+            <button 
+              onClick={() => setActiveTab('preview')}
+              className={`flex-1 py-2 text-sm font-medium rounded-md transition-all ${
+                activeTab === 'preview' ? 'bg-blue-600 text-white shadow-md' : 'text-gray-600 hover:bg-gray-50'
+              }`}
+            >
+              Preview Bill
+            </button>
+          </div>
         </div>
 
         <div className="lg:grid lg:grid-cols-12 lg:gap-8 items-start">
@@ -116,7 +121,7 @@ export default function Home() {
                 </svg>
                 Bill Details
               </h2>
-              <BillForm formData={formData} setFormData={setFormData} />
+              <BillForm formData={formData} setFormData={setFormData} lastAddedId={lastAddedId} setLastAddedId={setLastAddedId} />
             </div>
           </div>
 

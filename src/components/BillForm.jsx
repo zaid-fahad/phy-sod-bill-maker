@@ -3,7 +3,6 @@ import TimesheetForm from './TimesheetForm';
 import Input from './ui/Input';
 import Select from './ui/Select';
 
-// Define some initial options for Dept and School
 const DEPT_OPTIONS = [
   { label: 'Physical Sciences', value: 'Physical Sciences' },
   { label: 'Computer Science & Engineering', value: 'Computer Science & Engineering' },
@@ -55,11 +54,11 @@ export default function BillForm({ formData, setFormData, lastAddedId, setLastAd
   };
 
   return (
-    <div className="space-y-6">
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+    <div className="space-y-12">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-10">
         <div className="md:col-span-2">
           <Input 
-            label="Billing Month" 
+            label="Billing Period" 
             name="month" 
             value={formData.month} 
             onChange={handleChange} 
@@ -67,7 +66,7 @@ export default function BillForm({ formData, setFormData, lastAddedId, setLastAd
           />
         </div>
 
-        <div className="md:col-span-2">
+        <div className="md:col-span-2 space-y-4">
           <Select 
             label="Department" 
             options={DEPT_OPTIONS} 
@@ -75,9 +74,9 @@ export default function BillForm({ formData, setFormData, lastAddedId, setLastAd
             onChange={handleDeptChange} 
           />
           {isCustomDept && (
-            <div className="mt-3 animate-in fade-in slide-in-from-top-1">
+            <div className="animate-in fade-in slide-in-from-top-2 duration-300">
               <Input 
-                placeholder="Type department name..." 
+                placeholder="Enter custom department..." 
                 name="department" 
                 value={formData.department} 
                 onChange={handleChange} 
@@ -87,7 +86,7 @@ export default function BillForm({ formData, setFormData, lastAddedId, setLastAd
           )}
         </div>
 
-        <div className="md:col-span-2">
+        <div className="md:col-span-2 space-y-4">
           <Select 
             label="School / Faculty" 
             options={SCHOOL_OPTIONS} 
@@ -95,9 +94,9 @@ export default function BillForm({ formData, setFormData, lastAddedId, setLastAd
             onChange={handleSchoolChange} 
           />
           {isCustomSchool && (
-            <div className="mt-3 animate-in fade-in slide-in-from-top-1">
+            <div className="animate-in fade-in slide-in-from-top-2 duration-300">
               <Input 
-                placeholder="Type school name..." 
+                placeholder="Enter custom school..." 
                 name="school" 
                 value={formData.school} 
                 onChange={handleChange} 
@@ -112,14 +111,14 @@ export default function BillForm({ formData, setFormData, lastAddedId, setLastAd
         </div>
         
         <Input label="Student ID" name="studentId" value={formData.studentId} onChange={handleChange} />
-        <Input label="Mobile Number" type="tel" name="mobile" value={formData.mobile} onChange={handleChange} />
+        <Input label="Mobile" type="tel" name="mobile" value={formData.mobile} onChange={handleChange} />
         
         <div className="md:col-span-2">
-          <Input label="Faculty Name" name="facultyName" value={formData.facultyName} onChange={handleChange} />
+          <Input label="Faculty Supervisor" name="facultyName" value={formData.facultyName} onChange={handleChange} />
         </div>
         
-        <Input label="MTB A/C Number" name="mtbAccount" value={formData.mtbAccount} onChange={handleChange} />
-        <Input label="Head of Department" name="headName" value={formData.headName} onChange={handleChange} />
+        <Input label="MTB A/C" name="mtbAccount" value={formData.mtbAccount} onChange={handleChange} />
+        <Input label="Dept. Head" name="headName" value={formData.headName} onChange={handleChange} />
       </div>
 
       <TimesheetForm 

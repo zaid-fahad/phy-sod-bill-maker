@@ -1,24 +1,42 @@
-export default function Header() {
+export default function Header({ toggleDarkMode, darkMode }) {
   return (
-    <header className="bg-white border-b border-gray-200 sticky top-0 z-40">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex justify-between items-center h-16">
-          <div className="flex items-center gap-3">
-            <div className="w-10 h-10 bg-blue-600 rounded-lg flex items-center justify-center shadow-blue-200 shadow-lg">
-              <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+    <header className="sticky top-0 z-50 w-full px-4 sm:px-6 lg:px-8 pt-6 pb-2 bg-retro-paper/80 dark:bg-dark-paper/80 backdrop-blur-xl border-b border-black/5 dark:border-white/5 transition-all">
+      <div className="max-w-7xl mx-auto">
+        <div className="flex justify-between items-center h-20 px-4 sm:px-8 bg-white dark:bg-dark-surface border-2 border-black dark:border-white/10 rounded-[2rem] shadow-retro dark:shadow-none transition-all hover:shadow-black/10 dark:hover:bg-white/5">
+          <div className="flex items-center gap-4 sm:gap-6">
+            <div className="w-12 h-12 sm:w-14 sm:h-14 bg-black dark:bg-retro-sage rounded-2xl flex items-center justify-center shadow-retro-sm">
+              <svg className="w-7 h-7 sm:w-8 sm:h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth="2.5">
+                <path strokeLinecap="round" strokeLinejoin="round" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
               </svg>
             </div>
             <div>
-              <h1 className="text-xl font-bold text-gray-900 leading-tight">BillGen</h1>
-              <p className="text-xs text-gray-500 font-medium uppercase tracking-wider">IUB Digital Portal</p>
+              <h1 className="text-2xl sm:text-3xl font-black text-black dark:text-white leading-none tracking-tighter uppercase italic">BillGen</h1>
+              <p className="hidden sm:block text-[10px] text-gray-400 font-bold uppercase tracking-[0.3em] mt-2">IUB Digital Systems</p>
             </div>
           </div>
-          <div className="hidden md:block">
-            {/* <div className="text-right">
-              <p className="text-sm font-semibold text-gray-900">Department of Physical Sciences</p>
-              <p className="text-xs text-gray-500">School of Engineering, Technology & Sciences</p>
-            </div> */}
+          
+          <div className="flex items-center gap-4 sm:gap-8">
+            {/* Theme Toggle replaces static text on mobile, next to it on desktop */}
+            <div className="hidden md:block text-right border-r-2 border-black/5 dark:border-white/10 pr-8">
+              <p className="text-[11px] font-black text-black dark:text-white uppercase tracking-[0.15em] mb-1 leading-tight">Physical Sciences</p>
+              <p className="text-[10px] text-gray-400 font-bold uppercase tracking-widest leading-tight">Engineering & Tech</p>
+            </div>
+
+            <button 
+              onClick={toggleDarkMode}
+              className="w-12 h-12 rounded-2xl bg-gray-50 dark:bg-white/5 border-2 border-black/5 dark:border-white/10 flex items-center justify-center text-black dark:text-white hover:border-black dark:hover:border-retro-sage transition-all active:scale-95 shadow-sm"
+              aria-label="Toggle Theme"
+            >
+              {darkMode ? (
+                <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth="2.5">
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364-6.364l-.707.707M6.343 17.657l-.707.707m12.728 0l-.707-.707M6.343 6.364l-.707-.707M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                </svg>
+              ) : (
+                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth="2.5">
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" />
+                </svg>
+              )}
+            </button>
           </div>
         </div>
       </div>

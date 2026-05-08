@@ -1,7 +1,72 @@
 @import "tailwindcss";
 
+@theme {
+  --color-retro-blue: #6d8299;
+  --color-retro-sage: #8ba888;
+  --color-retro-sand: #e8e4d9;
+  --color-retro-terracotta: #d48166;
+  --color-retro-paper: #faf9f6;
+  
+  /* Dark Mode Palette */
+  --color-dark-paper: #121212;
+  --color-dark-surface: #1e1e1e;
+  
+  --shadow-retro: 3px 3px 0px 0px rgba(0,0,0,1);
+  --shadow-retro-dark: 3px 3px 0px 0px rgba(255,255,255,0.1);
+  --shadow-retro-sm: 1.5px 1.5px 0px 0px rgba(0,0,0,1);
+  --shadow-retro-lg: 6px 6px 0px 0px rgba(0,0,0,1);
+}
+
+/* Explicitly tell Tailwind 4 to use the .dark class for the dark: variant */
+@custom-variant dark (&:where(.dark, .dark *));
+
+@layer base {
+  html {
+    transition: background-color 0.5s ease;
+  }
+  
+  body {
+    @apply antialiased text-[#1A1A1A] bg-retro-paper transition-colors duration-500;
+    font-family: 'Inter', system-ui, sans-serif;
+  }
+  
+  .dark body {
+    @apply text-gray-100 bg-dark-paper;
+  }
+}
+
+@layer components {
+  .retro-card {
+    @apply bg-white border-2 border-black shadow-retro transition-all;
+  }
+  .dark .retro-card {
+    @apply bg-dark-surface border-white/10 shadow-none;
+  }
+  
+  .retro-btn {
+    @apply border-2 border-black shadow-retro active:shadow-none active:translate-x-[1.5px] active:translate-y-[1.5px] transition-all font-bold uppercase tracking-wider;
+  }
+  .dark .retro-btn {
+    @apply border-white/20 bg-white/5 text-white hover:bg-white/10 shadow-none active:translate-x-0 active:translate-y-0;
+  }
+  
+  .retro-input {
+    @apply bg-white border-2 border-black/10 focus:border-black focus:shadow-retro transition-all outline-none;
+  }
+  .dark .retro-input {
+    @apply bg-white/5 border-white/10 text-white focus:border-retro-sage focus:shadow-none;
+  }
+}
+
 @media print {
   body {
+    @apply bg-white text-black !important;
     -webkit-print-color-adjust: exact;
+  }
+  .no-print {
+    display: none !important;
+  }
+  .dark body {
+     @apply bg-white text-black !important;
   }
 }

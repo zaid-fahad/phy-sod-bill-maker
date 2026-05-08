@@ -8,7 +8,7 @@ import Footer from '../components/Footer';
 import Modal from '../components/ui/Modal';
 import Input from '../components/ui/Input';
 
-export default function Home() {
+export default function Home({ toggleDarkMode, darkMode }) {
   const [formData, setFormData] = useState({
     month: 'March 2026',
     department: 'Physical Sciences',
@@ -36,12 +36,11 @@ export default function Home() {
 
   const openDownloadModal = () => {
     const now = new Date();
-    const dateStr = now.toISOString().split('T')[0]; // YYYY-MM-DD
+    const dateStr = now.toISOString().split('T')[0];
     const timeStr = now.getHours().toString().padStart(2, '0') + now.getMinutes().toString().padStart(2, '0');
     const sanitizedName = formData.studentName.trim().replace(/\s+/g, '_') || 'Student';
     const sanitizedMonth = formData.month.trim().replace(/\s+/g, '_') || 'Month';
-    
-    const defaultName = `${sanitizedName}_${sanitizedMonth}_Bill`;
+    const defaultName = `${sanitizedName}_${sanitizedMonth}_${dateStr}_${timeStr}`;
     setCustomFileName(defaultName);
     setIsModalOpen(true);
   };
@@ -49,52 +48,25 @@ export default function Home() {
   const handleDownloadPdf = async () => {
     const element = printRef.current;
     if (!element) return;
-
     setIsGenerating(true);
-
     try {
-      await new Promise(resolve => setTimeout(resolve, 200));
-
-      const dataUrl = await toPng(element, {
-        cacheBust: true,
-        quality: 1,
-        pixelRatio: 2,
-        backgroundColor: '#ffffff',
-      });
-
-      if (!dataUrl || !dataUrl.startsWith('data:image/png')) {
-        throw new Error("Invalid image data generated");
-      }
-
-      const pdf = new jsPDF({
-        orientation: 'portrait',
-        unit: 'mm',
-        format: 'a4',
-        compress: true
-      });
-
+      await new Promise(resolve => setTimeout(resolve, 300));
+      const dataUrl = await toPng(element, { cacheBust: true, quality: 1, pixelRatio: 2, backgroundColor: '#ffffff' });
+      if (!dataUrl || !dataUrl.startsWith('data:image/png')) throw new Error("Invalid image data");
+      const pdf = new jsPDF({ orientation: 'portrait', unit: 'mm', format: 'a4', compress: true });
       const pdfWidth = pdf.internal.pageSize.getWidth();
       const margin = 10;
       const availableWidth = pdfWidth - (margin * 2);
-      
       const img = new Image();
       img.src = dataUrl;
-      await new Promise((resolve, reject) => {
-        img.onload = resolve;
-        img.onerror = reject;
-      });
-
-      const imgWidth = img.naturalWidth;
-      const imgHeight = img.naturalHeight;
-      const displayHeight = (imgHeight * availableWidth) / imgWidth;
-
+      await new Promise((resolve, reject) => { img.onload = resolve; img.onerror = reject; });
+      const displayHeight = (img.naturalHeight * availableWidth) / img.naturalWidth;
       pdf.addImage(dataUrl, 'PNG', margin, margin, availableWidth, displayHeight, undefined, 'FAST');
       pdf.save(`${customFileName || 'Bill'}.pdf`);
       setIsModalOpen(false);
-      
     } catch (error) {
-      console.error("PDF generation error: ", error);
-      alert("Something went wrong while generating the PDF.");
+      console.error("PDF error: ", error);
+      alert("Capture error. Please try in standard browser.");
     } finally {
       setIsGenerating(false);
     }
@@ -102,83 +74,87 @@ export default function Home() {
 
   const handleMobileDownload = () => {
     setActiveTab('preview');
-    setTimeout(() => {
-      openDownloadModal();
-    }, 400);
+    setTimeout(() => openDownloadModal(), 500);
   };
 
   const handleAddRow = () => {
     const newId = Date.now();
     setFormData((prev) => ({
       ...prev,
-      entries: [
-        ...prev.entries,
-        { id: newId, week: 'Week 1', date: '', start: '', end: '' }
-      ]
+      entries: [...prev.entries, { id: newId, week: 'Week 1', date: '', start: '', end: '' }]
     }));
     setLastAddedId(newId);
     setActiveTab('edit');
   };
 
   return (
-    <div className="min-h-screen bg-gray-50 flex flex-col pb-20 lg:pb-0">
-      <Header />
+    <div className="min-h-screen bg-retro-paper dark:bg-dark-paper flex flex-col pb-24 lg:pb-0 font-sans transition-colors duration-500">
+      <Header toggleDarkMode={toggleDarkMode} darkMode={darkMode} />
       
-      <main className="flex-grow max-w-7xl mx-auto w-full px-4 sm:px-6 lg:px-8 py-8">
-        <div className="lg:hidden sticky top-16 z-30 bg-gray-50/95 backdrop-blur-sm py-3 mb-6 -mx-4 px-4 sm:-mx-6 sm:px-6">
-          <div className="bg-white p-1 rounded-lg border border-gray-200 shadow-sm flex">
+      <main className="flex-grow max-w-7xl mx-auto w-full px-6 lg:px-8 py-8">
+        {/* Mobile Tabs */}
+        <div className="lg:hidden sticky top-[108px] z-40 -mx-6 px-6 py-4 bg-retro-paper/80 dark:bg-dark-paper/80 backdrop-blur-xl border-b border-black/5 dark:border-white/5 mb-10 transition-colors duration-500">
+          <div className="bg-white dark:bg-dark-surface border-2 border-black dark:border-white/10 p-1.5 rounded-2xl shadow-retro dark:shadow-none flex gap-1">
             <button 
               onClick={() => setActiveTab('edit')}
-              className={`flex-1 py-2 text-sm font-medium rounded-md transition-all ${
-                activeTab === 'edit' ? 'bg-blue-600 text-white shadow-md' : 'text-gray-600 hover:bg-gray-50'
+              className={`flex-1 py-3 text-[10px] font-black uppercase tracking-[0.2em] rounded-xl transition-all duration-300 ${
+                activeTab === 'edit' ? 'bg-black dark:bg-retro-sage text-white dark:text-black' : 'text-gray-400 dark:text-gray-500 hover:bg-gray-50 dark:hover:bg-white/5'
               }`}
             >
-              Edit Form
+              Editor
             </button>
             <button 
               onClick={() => setActiveTab('preview')}
-              className={`flex-1 py-2 text-sm font-medium rounded-md transition-all ${
-                activeTab === 'preview' ? 'bg-blue-600 text-white shadow-md' : 'text-gray-600 hover:bg-gray-50'
+              className={`flex-1 py-3 text-[10px] font-black uppercase tracking-[0.2em] rounded-xl transition-all duration-300 ${
+                activeTab === 'preview' ? 'bg-black dark:bg-retro-sage text-white dark:text-black' : 'text-gray-400 dark:text-gray-500 hover:bg-gray-50 dark:hover:bg-white/5'
               }`}
             >
-              Preview Bill
+              Preview
             </button>
           </div>
         </div>
 
-        <div className="lg:grid lg:grid-cols-12 lg:gap-8 items-start">
+        <div className="lg:grid lg:grid-cols-12 lg:gap-16 items-start">
+          {/* Form Column */}
           <div className={`lg:col-span-5 ${activeTab === 'edit' ? 'block' : 'hidden lg:block'}`}>
-            <div className="bg-white p-6 rounded-xl shadow-sm border border-gray-200">
-              <h2 className="text-xl font-bold mb-6 text-gray-900 flex items-center gap-2">
-                <svg className="w-5 h-5 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
-                </svg>
-                Bill Details
+            <div className="bg-white dark:bg-dark-surface border-2 border-black dark:border-white/10 rounded-[2.5rem] p-10 shadow-retro dark:shadow-none transition-all hover:shadow-black/10">
+              <h2 className="text-3xl font-black mb-10 text-black dark:text-white uppercase tracking-tight italic flex items-center gap-4">
+                <div className="w-10 h-10 bg-retro-sage rounded-2xl flex items-center justify-center border-2 border-black dark:border-white/20 shadow-retro-sm dark:shadow-none">
+                  <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth="2.5">
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
+                  </svg>
+                </div>
+                Entry Log
               </h2>
               <BillForm formData={formData} setFormData={setFormData} lastAddedId={lastAddedId} setLastAddedId={setLastAddedId} />
             </div>
           </div>
 
-          <div className={`lg:col-span-7 flex flex-col gap-6 lg:sticky lg:top-24 ${activeTab === 'preview' ? 'block' : 'hidden lg:block'}`}>
-            <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-4 bg-white p-4 rounded-xl shadow-sm border border-gray-200">
-              <h2 className="text-xl font-semibold text-gray-900 flex items-center gap-2">
-                <svg className="w-5 h-5 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
-                </svg>
-                Document Preview
+          {/* Preview Column */}
+          <div className={`lg:col-span-7 flex flex-col gap-10 lg:sticky lg:top-[140px] ${activeTab === 'preview' ? 'block' : 'hidden lg:block'}`}>
+            <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-8 bg-white/70 dark:bg-dark-surface/70 backdrop-blur-md border-2 border-black dark:border-white/10 rounded-[2rem] p-8 shadow-retro dark:shadow-none transition-colors duration-500">
+              <h2 className="text-2xl font-black text-black dark:text-white uppercase tracking-tight italic flex items-center gap-4">
+                <div className="w-10 h-10 bg-retro-blue rounded-2xl flex items-center justify-center border-2 border-black dark:border-white/20 shadow-retro-sm dark:shadow-none">
+                  <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth="2.5">
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
+                  </svg>
+                </div>
+                Document View
               </h2>
               <button 
                 onClick={openDownloadModal}
-                className="px-5 py-2.5 bg-blue-600 hover:bg-blue-700 text-white rounded-lg font-medium transition-colors shadow-sm flex items-center justify-center min-w-[160px] cursor-pointer"
+                className="px-10 py-4.5 bg-black dark:bg-retro-sage text-white dark:text-black rounded-2xl font-black uppercase tracking-widest shadow-retro dark:shadow-none hover:shadow-none dark:hover:bg-retro-sage/90 hover:translate-x-1 hover:translate-y-1 transition-all active:scale-95 text-xs border-2 border-transparent dark:border-white/10"
               >
-                Download PDF
+                Export PDF
               </button>
             </div>
             
-            <div className="overflow-x-auto bg-white shadow-lg rounded-xl border border-gray-200 p-2 lg:p-4">
-              <div className="min-w-[750px] mx-auto p-4 lg:p-8 bg-white" ref={printRef}>
-                <BillPreview data={formData} />
+            <div className="bg-white border-2 border-black dark:border-white/10 rounded-[3rem] shadow-retro dark:shadow-none overflow-hidden transition-all">
+              <div className="overflow-x-auto">
+                <div className="min-w-[750px] mx-auto p-12 bg-white" ref={printRef}>
+                  <BillPreview data={formData} />
+                </div>
               </div>
             </div>
           </div>
@@ -187,70 +163,49 @@ export default function Home() {
 
       <Footer />
 
-      {/* Download Modal */}
-      <Modal 
-        isOpen={isModalOpen} 
-        onClose={() => !isGenerating && setIsModalOpen(false)} 
-        title="Ready to Download"
-      >
-        <div className="space-y-6">
-          <Input 
-            label="File Name" 
-            value={customFileName} 
-            onChange={(e) => setCustomFileName(e.target.value)}
-            placeholder="Enter file name..."
-            autoFocus
-          />
-          
-          <div className="flex gap-3 pt-2">
+      {/* Export Modal */}
+      <Modal isOpen={isModalOpen} onClose={() => !isGenerating && setIsModalOpen(false)} title="Export Settings">
+        <div className="space-y-10 text-black dark:text-white">
+          <Input label="Filename" value={customFileName} onChange={(e) => setCustomFileName(e.target.value)} placeholder="Type name..." autoFocus />
+          <div className="flex gap-4">
             <button 
-              disabled={isGenerating}
+              disabled={isGenerating} 
               onClick={() => setIsModalOpen(false)}
-              className="flex-1 px-4 py-3 border border-gray-200 text-gray-600 rounded-xl font-bold hover:bg-gray-50 transition-colors disabled:opacity-50"
+              className="flex-1 px-8 py-5 border-2 border-black/10 dark:border-white/10 text-gray-400 dark:text-gray-500 rounded-3xl font-black uppercase tracking-widest hover:bg-gray-50 dark:hover:bg-white/5 transition-all disabled:opacity-50 text-[10px]"
             >
-              Cancel
+              Dismiss
             </button>
             <button 
-              disabled={isGenerating}
+              disabled={isGenerating} 
               onClick={handleDownloadPdf}
-              className="flex-1 px-4 py-3 bg-blue-600 text-white rounded-xl font-bold hover:bg-blue-700 transition-all shadow-lg shadow-blue-100 flex items-center justify-center gap-2"
+              className="flex-1 px-8 py-5 bg-black dark:bg-retro-sage text-white dark:text-black rounded-3xl font-black uppercase tracking-widest shadow-retro dark:shadow-none active:shadow-none active:translate-x-1 active:translate-y-1 transition-all flex items-center justify-center gap-3 text-[10px] border-2 border-transparent dark:border-white/10"
             >
-              {isGenerating ? (
-                <>
-                  <svg className="animate-spin h-5 w-5 text-white" viewBox="0 0 24 24">
-                    <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
-                    <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
-                  </svg>
-                  Processing...
-                </>
-              ) : (
-                'Download'
-              )}
+              {isGenerating ? 'Capturing...' : 'Execute Export'}
             </button>
           </div>
         </div>
       </Modal>
 
       {/* Sticky Mobile Bar */}
-      <div className="lg:hidden fixed bottom-0 left-0 right-0 bg-white border-t border-gray-200 p-4 z-50 shadow-[0_-4px_10px_rgba(0,0,0,0.05)]">
-        <div className="flex gap-3">
+      <div className="lg:hidden fixed bottom-0 left-0 right-0 p-6 z-50">
+        <div className="bg-black dark:bg-dark-surface text-white rounded-[2.5rem] p-3 shadow-2xl flex gap-3 border border-white/10">
           <button 
             onClick={handleAddRow}
-            className="flex-1 bg-gray-900 text-white py-3 rounded-xl font-bold flex items-center justify-center gap-2 shadow-lg active:scale-95 transition-transform"
+            className="flex-1 bg-white dark:bg-white/10 text-black dark:text-white py-4.5 rounded-[2rem] font-black uppercase tracking-widest flex items-center justify-center gap-2 active:scale-95 transition-all text-xs"
           >
-            <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
+            <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth="3">
+              <path strokeLinecap="round" strokeLinejoin="round" d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
             </svg>
-            Add Row
+            Add Entry
           </button>
           <button 
             onClick={handleMobileDownload}
-            className="flex-1 bg-blue-600 text-white py-3 rounded-xl font-bold flex items-center justify-center gap-2 shadow-lg active:scale-95 transition-transform"
+            className="flex-1 bg-retro-sage text-white py-4.5 rounded-[2rem] font-black uppercase tracking-widest flex items-center justify-center gap-2 active:scale-95 transition-all text-xs shadow-lg shadow-retro-sage/20 border border-white/20"
           >
-            <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
+            <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth="3">
+              <path strokeLinecap="round" strokeLinejoin="round" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
             </svg>
-            PDF
+            Get PDF
           </button>
         </div>
       </div>

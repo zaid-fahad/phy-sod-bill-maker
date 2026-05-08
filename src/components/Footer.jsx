@@ -1,39 +1,43 @@
 export default function Footer() {
   return (
-    <footer className="bg-white border-t border-gray-200 mt-20">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
+    <footer className="mt-20 px-4 sm:px-6 lg:px-8 pb-12">
+      <div className="max-w-7xl mx-auto bg-black text-white rounded-[40px] p-8 md:p-12 shadow-brutal-lg border-2 border-black overflow-hidden relative">
+        {/* Decorative Pop Circle */}
+        <div className="absolute -top-12 -right-12 w-48 h-48 bg-brutal-blue rounded-full opacity-20 blur-3xl" />
+        
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-center relative z-10">
           <div>
-            <div className="flex items-center gap-3 mb-4">
-              <div className="w-8 h-8 bg-gray-900 rounded-md flex items-center justify-center">
-                <svg className="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+            <div className="flex items-center gap-3 mb-6">
+              <div className="w-10 h-10 bg-white border-2 border-white rounded-xl flex items-center justify-center shadow-[4px_4px_0px_0px_#818cf8]">
+                <svg className="w-6 h-6 text-black" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth="2.5">
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
                 </svg>
               </div>
-              <span className="text-lg font-bold text-gray-900 tracking-tight">BillGen</span>
+              <span className="text-2xl font-black uppercase tracking-tighter italic">BillGen</span>
             </div>
-            <p className="text-gray-500 text-sm max-w-xs leading-relaxed">
-              An automated bill generation tool designed for students on Duty of Independent University, Bangladesh.
+            <p className="text-gray-400 text-sm max-w-xs leading-relaxed font-medium">
+              High-performance bill generator for IUB. Designed for speed, precision, and modern academics.
             </p>
           </div>
+          
           <div className="md:text-right">
-            <p className="text-sm font-semibold text-gray-900 mb-1">Developed by</p>
-            <p className="text-lg font-bold text-blue-600 mb-4">Momotaj Akther Happy</p>
-            <div className="flex flex-col md:items-end gap-1 text-xs text-gray-500 font-medium">
-              <span>ID: 2430798</span>
+            <p className="text-xs font-black uppercase tracking-widest text-gray-500 mb-2">Lead Developer</p>
+            <p className="text-3xl font-black text-brutal-blue uppercase tracking-tighter leading-none mb-4">Momotaj Akther Happy</p>
+            <div className="flex flex-col md:items-end gap-1 text-[10px] text-gray-400 font-black uppercase tracking-widest">
               <span>Computer Science & Engineering</span>
-              <span>School of Engineering, Technology & Sciences</span>
+              <span>IUB Digital Labs</span>
             </div>
           </div>
         </div>
-        {/* <div className="border-t border-gray-100 mt-10 pt-8 flex flex-col sm:flex-row justify-between items-center gap-4 text-xs text-gray-400">
-          <p>© 2026 Independent University, Bangladesh. All rights reserved.</p>
-          <div className="flex gap-6">
-            <a href="#" className="hover:text-blue-600 transition-colors">Privacy Policy</a>
-            <a href="#" className="hover:text-blue-600 transition-colors">Terms of Service</a>
-            <a href="#" className="hover:text-blue-600 transition-colors">Help Center</a>
+        
+        <div className="border-t border-white/10 mt-12 pt-8 flex flex-col sm:flex-row justify-between items-center gap-6 text-[10px] font-black uppercase tracking-[0.2em]">
+          <p className="text-gray-500">© 2026 Independent University, Bangladesh</p>
+          <div className="flex gap-8">
+            <a href="#" className="hover:text-brutal-blue transition-colors">Documentation</a>
+            <a href="#" className="hover:text-brutal-blue transition-colors">Privacy</a>
+            <a href="#" className="hover:text-brutal-blue transition-colors">Support</a>
           </div>
-        </div> */}
+        </div>
       </div>
     </footer>
   );

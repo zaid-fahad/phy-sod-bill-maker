@@ -28,21 +28,15 @@ export default function DatePicker({ label, value, onChange, icon: Icon, placeho
     const daysInMonth = new Date(year, month + 1, 0).getDate();
     
     const days = [];
-    // Padding for previous month
-    for (let i = 0; i < firstDay; i++) {
-      days.push({ day: null, current: false });
-    }
-    // Days of current month
-    for (let i = 1; i <= daysInMonth; i++) {
-      days.push({ day: i, current: true });
-    }
+    for (let i = 0; i < firstDay; i++) days.push({ day: null, current: false });
+    for (let i = 1; i <= daysInMonth; i++) days.push({ day: i, current: true });
     return days;
   }, [viewDate]);
 
   const handleDateSelect = (day) => {
     const selected = new Date(viewDate.getFullYear(), viewDate.getMonth(), day);
     const formatted = selected.toISOString().split('T')[0];
-    onChange({ target: { name: '', value: formatted } }); // Emulate event for compatibility
+    onChange({ target: { name: '', value: formatted } });
     setIsOpen(false);
   };
 
@@ -57,7 +51,7 @@ export default function DatePicker({ label, value, onChange, icon: Icon, placeho
   return (
     <div className="w-full" ref={containerRef}>
       {label && (
-        <label className="block text-xs font-bold text-gray-500 uppercase tracking-wider mb-1.5 ml-1">
+        <label className="block text-[11px] font-bold text-gray-500 dark:text-gray-400 uppercase tracking-[0.15em] mb-2 ml-1">
           {label}
         </label>
       )}
@@ -66,41 +60,41 @@ export default function DatePicker({ label, value, onChange, icon: Icon, placeho
           type="button"
           onClick={() => setIsOpen(!isOpen)}
           className={`
-            w-full bg-white border border-gray-200 rounded-xl px-4 py-2.5 text-sm text-left
-            transition-all duration-200 outline-none flex items-center gap-3
-            focus:border-blue-600 focus:ring-4 focus:ring-blue-50/50
-            ${isOpen ? 'border-blue-600 ring-4 ring-blue-50/50' : ''}
+            w-full bg-white dark:bg-white/5 border-2 border-black/10 dark:border-white/10 rounded-xl px-5 py-3.5 text-sm text-left
+            transition-all duration-300 outline-none flex items-center gap-3 font-medium text-black dark:text-white
+            focus:border-black dark:focus:border-retro-sage focus:bg-white dark:focus:bg-white/10 focus:shadow-retro dark:focus:shadow-none
+            ${isOpen ? 'border-black dark:border-retro-sage bg-white dark:bg-white/10 shadow-retro dark:shadow-none' : ''}
           `}
         >
-          {Icon && <span className="text-gray-400 group-focus-within:text-blue-600"><Icon size={18} /></span>}
-          <span className={`flex-1 truncate ${!value ? 'text-gray-400' : 'text-gray-900'}`}>
+          {Icon && <span className="text-gray-400 dark:text-gray-500"><Icon size={16} strokeWidth={2} /></span>}
+          <span className={`flex-1 truncate ${!value ? 'text-gray-300 dark:text-gray-600' : 'text-black dark:text-white'}`}>
             {displayDate || placeholder}
           </span>
         </button>
 
         {isOpen && (
-          <div className="absolute z-50 mt-2 bg-white border border-gray-100 rounded-2xl shadow-2xl p-4 w-72 animate-in fade-in slide-in-from-top-2 duration-200">
-            <div className="flex items-center justify-between mb-4">
+          <div className="absolute z-50 mt-2 bg-white dark:bg-dark-surface border-2 border-black dark:border-white/10 rounded-2xl shadow-retro-lg dark:shadow-2xl p-5 w-72 animate-in fade-in slide-in-from-top-2 duration-300 text-black dark:text-white">
+            <div className="flex items-center justify-between mb-5">
               <button 
                 onClick={() => changeMonth(-1)} 
-                className="p-1.5 hover:bg-gray-100 rounded-lg text-gray-600 transition-colors"
+                className="p-1.5 hover:bg-gray-100 dark:hover:bg-white/5 rounded-lg transition-colors text-black dark:text-white"
               >
-                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M15 19l-7-7 7-7" /></svg>
+                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth="2.5"><path strokeLinecap="round" strokeLinejoin="round" d="M15 19l-7-7 7-7" /></svg>
               </button>
-              <h4 className="font-bold text-gray-900 text-sm">
+              <h4 className="font-bold text-black dark:text-white text-xs uppercase tracking-widest">
                 {MONTHS[viewDate.getMonth()]} {viewDate.getFullYear()}
               </h4>
               <button 
                 onClick={() => changeMonth(1)} 
-                className="p-1.5 hover:bg-gray-100 rounded-lg text-gray-600 transition-colors"
+                className="p-1.5 hover:bg-gray-100 dark:hover:bg-white/5 rounded-lg transition-colors text-black dark:text-white"
               >
-                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M9 5l7 7-7 7" /></svg>
+                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth="2.5"><path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" /></svg>
               </button>
             </div>
 
-            <div className="grid grid-cols-7 gap-1 text-center mb-2">
+            <div className="grid grid-cols-7 gap-1 text-center mb-3">
               {DAYS.map(d => (
-                <span key={d} className="text-[10px] font-bold text-gray-400 uppercase">{d}</span>
+                <span key={d} className="text-[10px] font-bold text-gray-300 dark:text-gray-500 uppercase tracking-tighter">{d}</span>
               ))}
             </div>
 
@@ -112,11 +106,11 @@ export default function DatePicker({ label, value, onChange, icon: Icon, placeho
                   disabled={!d.day}
                   onClick={() => handleDateSelect(d.day)}
                   className={`
-                    h-8 w-8 text-xs rounded-lg flex items-center justify-center transition-all
-                    ${!d.day ? 'invisible' : 'hover:bg-blue-50 hover:text-blue-600'}
+                    h-8 w-8 text-xs rounded-lg flex items-center justify-center transition-all font-bold
+                    ${!d.day ? 'invisible' : 'hover:bg-retro-blue/10 dark:hover:bg-retro-sage/10 hover:text-retro-blue dark:hover:text-retro-sage'}
                     ${value === new Date(viewDate.getFullYear(), viewDate.getMonth(), d.day).toISOString().split('T')[0] 
-                      ? 'bg-blue-600 text-white font-bold shadow-md shadow-blue-100' 
-                      : 'text-gray-700'}
+                      ? 'bg-black dark:bg-retro-sage text-white dark:text-black' 
+                      : 'text-gray-700 dark:text-gray-300'}
                   `}
                 >
                   {d.day}

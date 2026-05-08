@@ -12,31 +12,32 @@ export default function Footer() {
                   <path strokeLinecap="round" strokeLinejoin="round" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
                 </svg>
               </div>
-              <span className="text-2xl font-black uppercase tracking-tighter italic">BillGen</span>
+              <span className="text-2xl font-black  tracking-tighter italic">SoD BillGen</span>
             </div>
             <p className="text-gray-400 dark:text-gray-500 text-sm max-w-xs leading-relaxed font-medium">
-              High-performance academic log generator for the Independent University, Bangladesh. Designed for clarity and speed.
-            </p>
+              SoD Bill Generator            </p>
           </div>
           
           <div className="md:text-right">
-            <p className="text-[10px] font-black uppercase tracking-[0.2em] text-gray-500 mb-3">Lead System Architect</p>
+            <p className="text-[10px] font-black uppercase tracking-[0.2em] text-gray-500 mb-3">Made By:</p>
             <p className="text-3xl font-black text-white dark:text-retro-sage uppercase tracking-tighter leading-none mb-6">Momotaj Akther Happy</p>
             <div className="flex flex-col md:items-end gap-1.5 text-[11px] text-gray-400 font-bold uppercase tracking-widest">
+                            <span>ID: 2430798</span>
+
               <span>Computer Science & Engineering</span>
-              <span className="opacity-50">IUB Digital Systems Division</span>
+              <span className="opacity-50">SETS, IUB</span>
             </div>
           </div>
         </div>
         
-        <div className="border-t border-white/5 dark:border-white/5 mt-16 pt-10 flex flex-col sm:flex-row justify-between items-center gap-8 text-[10px] font-black uppercase tracking-[0.3em]">
+        {/* <div className="border-t border-white/5 dark:border-white/5 mt-16 pt-10 flex flex-col sm:flex-row justify-between items-center gap-8 text-[10px] font-black uppercase tracking-[0.3em]">
           <p className="text-gray-600">© 2026 IUB PHYSICAL SCIENCES</p>
           <div className="flex gap-10">
             <a href="#" className="hover:text-retro-sage transition-colors">Source</a>
             <a href="#" className="hover:text-retro-sage transition-colors">Privacy</a>
             <a href="#" className="hover:text-retro-sage transition-colors">Terms</a>
           </div>
-        </div>
+        </div> */}
       </div>
     </footer>
   );

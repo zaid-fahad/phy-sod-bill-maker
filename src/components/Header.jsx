@@ -10,8 +10,8 @@ export default function Header({ toggleDarkMode, darkMode }) {
               </svg>
             </div>
             <div>
-              <h1 className="text-2xl sm:text-3xl font-black text-app-text leading-none tracking-tighter uppercase italic">BillGen</h1>
-              <p className="hidden sm:block text-[10px] text-gray-400 font-bold uppercase tracking-[0.3em] mt-2">IUB Digital Systems</p>
+              <h1 className="text-2xl sm:text-3xl font-black text-app-text leading-none tracking-tighter uppercase italic">SoD BillGen</h1>
+              {/* <p className="hidden sm:block text-[10px] text-gray-400 font-bold uppercase tracking-[0.3em] mt-2"></p> */}
             </div>
           </div>
           

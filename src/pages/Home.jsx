@@ -40,7 +40,7 @@ export default function Home({ toggleDarkMode, darkMode }) {
     const timeStr = now.getHours().toString().padStart(2, '0') + now.getMinutes().toString().padStart(2, '0');
     const sanitizedName = formData.studentName.trim().replace(/\s+/g, '_') || 'Student';
     const sanitizedMonth = formData.month.trim().replace(/\s+/g, '_') || 'Month';
-    const defaultName = `${sanitizedName}_${sanitizedMonth}_${dateStr}_${timeStr}`;
+    const defaultName = `${sanitizedName}_${sanitizedMonth}_SoD_Bill_${dateStr}`;
     setCustomFileName(defaultName);
     setIsModalOpen(true);
   };
@@ -180,7 +180,7 @@ export default function Home({ toggleDarkMode, darkMode }) {
               onClick={handleDownloadPdf}
               className="flex-1 px-8 py-5 bg-app-text text-app-paper rounded-3xl font-black uppercase tracking-widest shadow-retro dark:shadow-none active:shadow-none active:translate-x-1 active:translate-y-1 transition-all flex items-center justify-center gap-3 text-[10px] border-2 border-transparent dark:border-white/10 dark:bg-retro-sage dark:text-black"
             >
-              {isGenerating ? 'Capturing...' : 'Execute Export'}
+              {isGenerating ? 'Capturing...' : 'Download'}
             </button>
           </div>
         </div>

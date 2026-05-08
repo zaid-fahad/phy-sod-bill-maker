@@ -1,9 +1,50 @@
+import { useState } from 'react';
 import TimesheetForm from './TimesheetForm';
+import Input from './ui/Input';
+import Select from './ui/Select';
 
-export default function BillForm({ formData, setFormData }) {
+// Define some initial options for Dept and School
+const DEPT_OPTIONS = [
+  { label: 'Physical Sciences', value: 'Physical Sciences' },
+  { label: 'Computer Science & Engineering', value: 'Computer Science & Engineering' },
+  { label: 'Electrical & Electronic Engineering', value: 'Electrical & Electronic Engineering' },
+  { label: 'Custom...', value: 'custom' },
+];
+
+const SCHOOL_OPTIONS = [
+  { label: 'Engineering, Technology & Sciences', value: 'Engineering, Technology & Sciences' },
+  { label: 'Business & Entrepreneurship', value: 'Business & Entrepreneurship' },
+  { label: 'Liberal Arts & Social Sciences', value: 'Liberal Arts & Social Sciences' },
+  { label: 'Custom...', value: 'custom' },
+];
+
+export default function BillForm({ formData, setFormData, lastAddedId, setLastAddedId }) {
+  const [isCustomDept, setIsCustomDept] = useState(false);
+  const [isCustomSchool, setIsCustomSchool] = useState(false);
+
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
+  };
+
+  const handleDeptChange = (val) => {
+    if (val === 'custom') {
+      setIsCustomDept(true);
+      setFormData(prev => ({ ...prev, department: '' }));
+    } else {
+      setIsCustomDept(false);
+      setFormData(prev => ({ ...prev, department: val }));
+    }
+  };
+
+  const handleSchoolChange = (val) => {
+    if (val === 'custom') {
+      setIsCustomSchool(true);
+      setFormData(prev => ({ ...prev, school: '' }));
+    } else {
+      setIsCustomSchool(false);
+      setFormData(prev => ({ ...prev, school: val }));
+    }
   };
 
   const setEntries = (updateFn) => {
@@ -14,48 +55,79 @@ export default function BillForm({ formData, setFormData }) {
   };
 
   return (
-    <div className="space-y-4">
-      <div>
-        <label className="block text-sm font-medium text-gray-700 mb-1">Billing Month</label>
-        <input type="text" name="month" value={formData.month} onChange={handleChange} className="w-full p-2 border rounded-md" />
-      </div>
-      
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+    <div className="space-y-6">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
         <div className="md:col-span-2">
-          <label className="block text-sm font-medium text-gray-700 mb-1">Department</label>
-          <input type="text" name="department" value={formData.department} onChange={handleChange} className="w-full p-2 border rounded-md" />
+          <Input 
+            label="Billing Month" 
+            name="month" 
+            value={formData.month} 
+            onChange={handleChange} 
+            placeholder="e.g. March 2026"
+          />
         </div>
+
         <div className="md:col-span-2">
-          <label className="block text-sm font-medium text-gray-700 mb-1">School / Faculty</label>
-          <input type="text" name="school" value={formData.school} onChange={handleChange} className="w-full p-2 border rounded-md" />
+          <Select 
+            label="Department" 
+            options={DEPT_OPTIONS} 
+            value={isCustomDept ? 'custom' : formData.department} 
+            onChange={handleDeptChange} 
+          />
+          {isCustomDept && (
+            <div className="mt-3 animate-in fade-in slide-in-from-top-1">
+              <Input 
+                placeholder="Type department name..." 
+                name="department" 
+                value={formData.department} 
+                onChange={handleChange} 
+                autoFocus
+              />
+            </div>
+          )}
         </div>
+
         <div className="md:col-span-2">
-          <label className="block text-sm font-medium text-gray-700 mb-1">Student Name</label>
-          <input type="text" name="studentName" value={formData.studentName} onChange={handleChange} className="w-full p-2 border rounded-md" />
+          <Select 
+            label="School / Faculty" 
+            options={SCHOOL_OPTIONS} 
+            value={isCustomSchool ? 'custom' : formData.school} 
+            onChange={handleSchoolChange} 
+          />
+          {isCustomSchool && (
+            <div className="mt-3 animate-in fade-in slide-in-from-top-1">
+              <Input 
+                placeholder="Type school name..." 
+                name="school" 
+                value={formData.school} 
+                onChange={handleChange} 
+                autoFocus
+              />
+            </div>
+          )}
         </div>
-        <div>
-          <label className="block text-sm font-medium text-gray-700 mb-1">Student ID</label>
-          <input type="text" name="studentId" value={formData.studentId} onChange={handleChange} className="w-full p-2 border rounded-md" />
-        </div>
-        <div>
-          <label className="block text-sm font-medium text-gray-700 mb-1">Mobile Number</label>
-          <input type="tel" name="mobile" value={formData.mobile} onChange={handleChange} className="w-full p-2 border rounded-md" />
-        </div>
+
         <div className="md:col-span-2">
-          <label className="block text-sm font-medium text-gray-700 mb-1">Faculty Name</label>
-          <input type="text" name="facultyName" value={formData.facultyName} onChange={handleChange} className="w-full p-2 border rounded-md" />
+          <Input label="Student Name" name="studentName" value={formData.studentName} onChange={handleChange} />
         </div>
-        <div>
-          <label className="block text-sm font-medium text-gray-700 mb-1">MTB A/C Number</label>
-          <input type="text" name="mtbAccount" value={formData.mtbAccount} onChange={handleChange} className="w-full p-2 border rounded-md" />
+        
+        <Input label="Student ID" name="studentId" value={formData.studentId} onChange={handleChange} />
+        <Input label="Mobile Number" type="tel" name="mobile" value={formData.mobile} onChange={handleChange} />
+        
+        <div className="md:col-span-2">
+          <Input label="Faculty Name" name="facultyName" value={formData.facultyName} onChange={handleChange} />
         </div>
-        <div>
-           <label className="block text-sm font-medium text-gray-700 mb-1">Head of Department</label>
-           <input type="text" name="headName" value={formData.headName} onChange={handleChange} className="w-full p-2 border rounded-md" />
-        </div>
+        
+        <Input label="MTB A/C Number" name="mtbAccount" value={formData.mtbAccount} onChange={handleChange} />
+        <Input label="Head of Department" name="headName" value={formData.headName} onChange={handleChange} />
       </div>
 
-      <TimesheetForm entries={formData.entries} setEntries={setEntries} />
+      <TimesheetForm 
+        entries={formData.entries} 
+        setEntries={setEntries} 
+        lastAddedId={lastAddedId} 
+        setLastAddedId={setLastAddedId} 
+      />
     </div>
   );
 }

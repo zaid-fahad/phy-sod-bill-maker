@@ -1,7 +1,78 @@
 @import "tailwindcss";
 
-@media print {
+@theme {
+  --color-retro-blue: #6d8299;
+  --color-retro-sage: #8ba888;
+  --color-retro-sand: #e8e4d9;
+  --color-retro-terracotta: #d48166;
+  
+  /* Use CSS variables for theme-dependent colors */
+  --color-app-paper: var(--paper);
+  --color-app-surface: var(--surface);
+  --color-app-text: var(--text);
+  --color-app-border: var(--border);
+  
+  --shadow-retro: 3px 3px 0px 0px rgba(0,0,0,1);
+  --shadow-retro-dark: 3px 3px 0px 0px rgba(255,255,255,0.1);
+  --shadow-retro-sm: 1.5px 1.5px 0px 0px rgba(0,0,0,1);
+  --shadow-retro-lg: 6px 6px 0px 0px rgba(0,0,0,1);
+}
+
+/* Explicitly tell Tailwind 4 to use the .dark class for the dark: variant */
+@custom-variant dark (&:where(.dark, .dark *));
+
+:root {
+  --paper: #faf9f6;
+  --surface: #ffffff;
+  --text: #1a1a1a;
+  --border: rgba(0, 0, 0, 0.05);
+}
+
+.dark {
+  --paper: #121212;
+  --surface: #1c1c1e;
+  --text: #f3f4f6;
+  --border: rgba(255, 255, 255, 0.05);
+}
+
+@layer base {
+  html, body {
+    @apply transition-colors duration-500;
+  }
+  
   body {
+    @apply antialiased bg-app-paper text-app-text;
+    font-family: 'Inter', system-ui, sans-serif;
+  }
+}
+
+@layer components {
+  .retro-card {
+    @apply bg-app-surface border-2 border-black/5 dark:border-white/5 shadow-retro dark:shadow-none transition-all;
+  }
+  
+  .retro-btn {
+    @apply border-2 border-black shadow-retro active:shadow-none active:translate-x-[1.5px] active:translate-y-[1.5px] transition-all font-bold uppercase tracking-wider;
+  }
+  
+  .retro-input {
+    @apply bg-app-surface border-2 border-black/5 focus:border-black dark:focus:border-retro-sage transition-all outline-none;
+  }
+}
+
+@media print {
+  :root, .dark {
+    --paper: #ffffff !important;
+    --text: #000000 !important;
+    --surface: #ffffff !important;
+    --border: rgba(0, 0, 0, 0.1) !important;
+  }
+  body {
+    background-color: white !important;
+    color: black !important;
     -webkit-print-color-adjust: exact;
+  }
+  .no-print {
+    display: none !important;
   }
 }

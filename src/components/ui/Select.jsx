@@ -28,15 +28,15 @@ export default function Select({ label, options, value, onChange, icon: Icon, pl
           type="button"
           onClick={() => setIsOpen(!isOpen)}
           className={`
-            w-full bg-white dark:bg-white/5 border-2 border-black/10 dark:border-white/10 rounded-xl px-5 py-3.5 text-sm text-left
-            transition-all duration-300 outline-none flex items-center justify-between font-medium text-black dark:text-white
-            focus:border-black dark:focus:border-retro-sage focus:bg-white dark:focus:bg-white/10 focus:shadow-retro dark:focus:shadow-none
-            ${isOpen ? 'border-black dark:border-retro-sage bg-white dark:bg-white/10 shadow-retro dark:shadow-none' : ''}
+            w-full bg-app-surface border-2 border-black/10 dark:border-white/10 rounded-xl px-5 py-3.5 text-sm text-left
+            transition-all duration-300 outline-none flex items-center justify-between font-medium text-app-text
+            focus:border-black dark:focus:border-retro-sage focus:shadow-retro dark:focus:shadow-none
+            ${isOpen ? 'border-black dark:border-retro-sage bg-app-surface shadow-retro dark:shadow-none' : ''}
           `}
         >
           <div className="flex items-center gap-3 overflow-hidden">
             {Icon && <span className="text-gray-400 dark:text-gray-500"><Icon size={16} strokeWidth={2} /></span>}
-            <span className={`truncate ${!value ? 'text-gray-300 dark:text-gray-600' : 'text-black dark:text-white'}`}>
+            <span className={`truncate ${!value ? 'text-gray-300 dark:text-gray-600' : 'text-app-text'}`}>
               {selectedOption ? selectedOption.label : value || placeholder}
             </span>
           </div>
@@ -49,7 +49,7 @@ export default function Select({ label, options, value, onChange, icon: Icon, pl
         </button>
 
         {isOpen && (
-          <div className="absolute z-50 w-full mt-2 bg-white dark:bg-dark-surface border-2 border-black dark:border-white/10 rounded-xl shadow-retro-lg dark:shadow-2xl py-2 max-h-60 overflow-y-auto animate-in fade-in slide-in-from-top-2 duration-300">
+          <div className="absolute z-50 w-full mt-2 bg-app-surface border-2 border-black dark:border-white/10 rounded-xl shadow-retro-lg dark:shadow-2xl py-2 max-h-60 overflow-y-auto animate-in fade-in slide-in-from-top-2 duration-300">
             {options.map((option) => (
               <button
                 key={option.value}
@@ -61,7 +61,7 @@ export default function Select({ label, options, value, onChange, icon: Icon, pl
                 className={`
                   w-full px-5 py-3 text-sm text-left transition-colors font-semibold
                   hover:bg-retro-blue dark:hover:bg-retro-sage hover:text-white
-                  ${value === option.value ? 'bg-retro-blue/10 dark:bg-retro-sage/20 text-retro-blue dark:text-retro-sage' : 'text-gray-700 dark:text-gray-300'}
+                  ${value === option.value ? 'bg-retro-blue/10 dark:bg-retro-sage/20 text-retro-blue dark:text-retro-sage' : 'text-app-text'}
                 `}
               >
                 {option.label}

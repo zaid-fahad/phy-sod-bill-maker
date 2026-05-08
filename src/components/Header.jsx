@@ -1,30 +1,29 @@
 export default function Header({ toggleDarkMode, darkMode }) {
   return (
-    <header className="sticky top-0 z-50 w-full px-4 sm:px-6 lg:px-8 pt-6 pb-2 bg-retro-paper/80 dark:bg-dark-paper/80 backdrop-blur-xl border-b border-black/5 dark:border-white/5 transition-all">
+    <header className="sticky top-0 z-50 w-full px-4 sm:px-6 lg:px-8 pt-6 pb-2 bg-app-paper/80 backdrop-blur-xl border-b border-app-border transition-all duration-500">
       <div className="max-w-7xl mx-auto">
-        <div className="flex justify-between items-center h-20 px-4 sm:px-8 bg-white dark:bg-dark-surface border-2 border-black dark:border-white/10 rounded-[2rem] shadow-retro dark:shadow-none transition-all hover:shadow-black/10 dark:hover:bg-white/5">
+        <div className="flex justify-between items-center h-20 px-4 sm:px-8 bg-app-surface border-2 border-black/10 dark:border-white/10 rounded-[2rem] shadow-retro dark:shadow-none transition-all hover:shadow-black/10">
           <div className="flex items-center gap-4 sm:gap-6">
             <div className="w-12 h-12 sm:w-14 sm:h-14 bg-black dark:bg-retro-sage rounded-2xl flex items-center justify-center shadow-retro-sm">
-              <svg className="w-7 h-7 sm:w-8 sm:h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth="2.5">
+              <svg className="w-7 h-7 sm:w-8 sm:h-8 text-white dark:text-black" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth="2.5">
                 <path strokeLinecap="round" strokeLinejoin="round" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
               </svg>
             </div>
             <div>
-              <h1 className="text-2xl sm:text-3xl font-black text-black dark:text-white leading-none tracking-tighter uppercase italic">BillGen</h1>
+              <h1 className="text-2xl sm:text-3xl font-black text-app-text leading-none tracking-tighter uppercase italic">BillGen</h1>
               <p className="hidden sm:block text-[10px] text-gray-400 font-bold uppercase tracking-[0.3em] mt-2">IUB Digital Systems</p>
             </div>
           </div>
           
           <div className="flex items-center gap-4 sm:gap-8">
-            {/* Theme Toggle replaces static text on mobile, next to it on desktop */}
-            <div className="hidden md:block text-right border-r-2 border-black/5 dark:border-white/10 pr-8">
-              <p className="text-[11px] font-black text-black dark:text-white uppercase tracking-[0.15em] mb-1 leading-tight">Physical Sciences</p>
+            {/* <div className="hidden md:block text-right border-r-2 border-app-border pr-8">
+              <p className="text-[11px] font-black text-app-text uppercase tracking-[0.15em] mb-1 leading-tight">Physical Sciences</p>
               <p className="text-[10px] text-gray-400 font-bold uppercase tracking-widest leading-tight">Engineering & Tech</p>
-            </div>
+            </div> */}
 
             <button 
               onClick={toggleDarkMode}
-              className="w-12 h-12 rounded-2xl bg-gray-50 dark:bg-white/5 border-2 border-black/5 dark:border-white/10 flex items-center justify-center text-black dark:text-white hover:border-black dark:hover:border-retro-sage transition-all active:scale-95 shadow-sm"
+              className="w-12 h-12 rounded-2xl bg-app-paper border-2 border-app-border flex items-center justify-center text-app-text hover:border-black dark:hover:border-retro-sage transition-all active:scale-95 shadow-sm"
               aria-label="Toggle Theme"
             >
               {darkMode ? (

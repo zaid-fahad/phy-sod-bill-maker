@@ -40,7 +40,7 @@ function App() {
   }
 
   return (
-    <div className="min-h-screen bg-retro-paper dark:bg-dark-paper text-black dark:text-white font-sans transition-colors duration-500">
+    <div className="min-h-screen bg-app-paper text-app-text font-sans transition-colors duration-500">
       <Home toggleDarkMode={toggleDarkMode} darkMode={darkMode} />
     </div>
   );

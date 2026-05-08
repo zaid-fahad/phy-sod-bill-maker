@@ -60,33 +60,33 @@ export default function DatePicker({ label, value, onChange, icon: Icon, placeho
           type="button"
           onClick={() => setIsOpen(!isOpen)}
           className={`
-            w-full bg-white dark:bg-white/5 border-2 border-black/10 dark:border-white/10 rounded-xl px-5 py-3.5 text-sm text-left
-            transition-all duration-300 outline-none flex items-center gap-3 font-medium text-black dark:text-white
+            w-full bg-app-surface border-2 border-black/10 dark:border-white/10 rounded-xl px-5 py-3.5 text-sm text-left
+            transition-all duration-300 outline-none flex items-center gap-3 font-medium text-app-text
             focus:border-black dark:focus:border-retro-sage focus:bg-white dark:focus:bg-white/10 focus:shadow-retro dark:focus:shadow-none
-            ${isOpen ? 'border-black dark:border-retro-sage bg-white dark:bg-white/10 shadow-retro dark:shadow-none' : ''}
+            ${isOpen ? 'border-black dark:border-retro-sage bg-app-surface dark:bg-white/10 shadow-retro dark:shadow-none' : ''}
           `}
         >
           {Icon && <span className="text-gray-400 dark:text-gray-500"><Icon size={16} strokeWidth={2} /></span>}
-          <span className={`flex-1 truncate ${!value ? 'text-gray-300 dark:text-gray-600' : 'text-black dark:text-white'}`}>
+          <span className={`flex-1 truncate ${!value ? 'text-gray-300 dark:text-gray-600' : 'text-app-text'}`}>
             {displayDate || placeholder}
           </span>
         </button>
 
         {isOpen && (
-          <div className="absolute z-50 mt-2 bg-white dark:bg-dark-surface border-2 border-black dark:border-white/10 rounded-2xl shadow-retro-lg dark:shadow-2xl p-5 w-72 animate-in fade-in slide-in-from-top-2 duration-300 text-black dark:text-white">
+          <div className="absolute z-50 mt-2 bg-app-surface border-2 border-black dark:border-white/10 rounded-2xl shadow-retro-lg dark:shadow-2xl p-5 w-72 animate-in fade-in slide-in-from-top-2 duration-300">
             <div className="flex items-center justify-between mb-5">
               <button 
                 onClick={() => changeMonth(-1)} 
-                className="p-1.5 hover:bg-gray-100 dark:hover:bg-white/5 rounded-lg transition-colors text-black dark:text-white"
+                className="p-1.5 hover:bg-gray-100 dark:hover:bg-white/5 rounded-lg transition-colors text-app-text"
               >
                 <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth="2.5"><path strokeLinecap="round" strokeLinejoin="round" d="M15 19l-7-7 7-7" /></svg>
               </button>
-              <h4 className="font-bold text-black dark:text-white text-xs uppercase tracking-widest">
+              <h4 className="font-bold text-app-text text-xs uppercase tracking-widest">
                 {MONTHS[viewDate.getMonth()]} {viewDate.getFullYear()}
               </h4>
               <button 
                 onClick={() => changeMonth(1)} 
-                className="p-1.5 hover:bg-gray-100 dark:hover:bg-white/5 rounded-lg transition-colors text-black dark:text-white"
+                className="p-1.5 hover:bg-gray-100 dark:hover:bg-white/5 rounded-lg transition-colors text-app-text"
               >
                 <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth="2.5"><path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" /></svg>
               </button>
@@ -110,7 +110,7 @@ export default function DatePicker({ label, value, onChange, icon: Icon, placeho
                     ${!d.day ? 'invisible' : 'hover:bg-retro-blue/10 dark:hover:bg-retro-sage/10 hover:text-retro-blue dark:hover:text-retro-sage'}
                     ${value === new Date(viewDate.getFullYear(), viewDate.getMonth(), d.day).toISOString().split('T')[0] 
                       ? 'bg-black dark:bg-retro-sage text-white dark:text-black' 
-                      : 'text-gray-700 dark:text-gray-300'}
+                      : 'text-app-text'}
                   `}
                 >
                   {d.day}

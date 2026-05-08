@@ -67,16 +67,16 @@ export default function TimesheetForm({ entries, setEntries, lastAddedId, setLas
   };
 
   return (
-    <div className="pt-12 border-t border-black/5 mt-12">
+    <div className="pt-12 border-t border-app-border mt-12">
       <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-6 mb-10">
         <div>
-          <h3 className="font-black text-2xl tracking-tight text-black">Log Entries</h3>
+          <h3 className="font-black text-2xl tracking-tight text-app-text">Log Entries</h3>
           <p className="text-[11px] text-gray-400 font-bold uppercase tracking-widest mt-1">Track your session hours here</p>
         </div>
         <button 
           onClick={addEntryRow} 
           type="button" 
-          className="inline-flex items-center justify-center rounded-2xl text-xs font-black uppercase tracking-widest transition-all bg-black text-white shadow-retro hover:shadow-none hover:translate-x-1 hover:translate-y-1 h-14 px-8 gap-3 cursor-pointer active:scale-95"
+          className="inline-flex items-center justify-center rounded-2xl text-xs font-black uppercase tracking-widest transition-all bg-app-text text-app-paper shadow-retro hover:shadow-none hover:translate-x-1 hover:translate-y-1 h-14 px-8 gap-3 cursor-pointer active:scale-95 dark:shadow-none dark:hover:bg-retro-sage dark:hover:text-black"
         >
           <IconPlus /> New Row
         </button>
@@ -91,8 +91,8 @@ export default function TimesheetForm({ entries, setEntries, lastAddedId, setLas
             <div 
               key={entry.id} 
               className={`
-                group relative bg-white border-2 rounded-[2rem] p-8 transition-all duration-500
-                ${isNew ? 'border-black bg-retro-paper shadow-retro' : 'border-black/5 hover:border-black/10 hover:shadow-black/5'}
+                group relative bg-app-surface border-2 rounded-[2rem] p-8 transition-all duration-500
+                ${isNew ? 'border-app-text bg-app-paper shadow-retro dark:shadow-none' : 'border-app-border hover:border-black/20 dark:hover:border-white/20'}
               `}
               ref={index === entries.length - 1 ? listEndRef : null}
             >
@@ -139,8 +139,8 @@ export default function TimesheetForm({ entries, setEntries, lastAddedId, setLas
                     <div className={`
                       flex h-14 items-center justify-center font-black text-sm rounded-2xl border-2 transition-all duration-500
                       ${dailyHours > 0 
-                        ? 'bg-black text-white border-black shadow-retro-sm -translate-x-[1px] -translate-y-[1px]' 
-                        : 'bg-gray-50 text-gray-300 border-black/5'}
+                        ? 'bg-app-text text-app-paper border-app-text shadow-retro-sm -translate-x-[1px] -translate-y-[1px] dark:shadow-none' 
+                        : 'bg-app-paper text-gray-300 border-app-border'}
                     `}>
                       {dailyHours || '0.00'} HRS
                     </div>
@@ -150,7 +150,7 @@ export default function TimesheetForm({ entries, setEntries, lastAddedId, setLas
                 {/* Desktop Delete Button */}
                 <button 
                   onClick={() => removeEntryRow(entry.id)} 
-                  className="hidden md:flex absolute -top-4 -right-4 h-10 w-10 rounded-full shadow-2xl z-10 items-center justify-center bg-black text-white border-2 border-white hover:bg-retro-terracotta transition-all cursor-pointer opacity-0 group-hover:opacity-100 scale-75 group-hover:scale-100"
+                  className="hidden md:flex absolute -top-4 -right-4 h-10 w-10 rounded-full shadow-2xl z-10 items-center justify-center bg-app-text text-app-paper border-2 border-app-surface hover:bg-retro-terracotta transition-all cursor-pointer opacity-0 group-hover:opacity-100 scale-75 group-hover:scale-100"
                   title="Remove Entry"
                 >
                   <IconTrash />
@@ -159,7 +159,7 @@ export default function TimesheetForm({ entries, setEntries, lastAddedId, setLas
                 {/* Mobile Delete Button */}
                 <button
                   onClick={() => removeEntryRow(entry.id)}
-                  className="md:hidden w-full flex items-center justify-center gap-3 py-4.5 rounded-2xl bg-retro-paper text-gray-400 font-black uppercase tracking-widest text-[10px] border-2 border-black/5 active:bg-retro-terracotta active:text-white active:border-retro-terracotta transition-all"
+                  className="md:hidden w-full flex items-center justify-center gap-3 py-4.5 rounded-2xl bg-app-paper text-gray-400 font-black uppercase tracking-widest text-[10px] border-2 border-app-border active:bg-retro-terracotta active:text-white active:border-retro-terracotta transition-all"
                 >
                   <IconTrash /> Remove this log
                 </button>

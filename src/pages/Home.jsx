@@ -94,7 +94,7 @@ export default function Home({ toggleDarkMode, darkMode }) {
       <main className="flex-grow max-w-7xl mx-auto w-full px-6 lg:px-8 py-8">
         {/* Mobile Tabs */}
         <div className="lg:hidden sticky top-[108px] z-40 -mx-6 px-6 py-4 bg-app-paper/80 backdrop-blur-xl border-b border-app-border mb-10 transition-colors duration-500">
-          <div className="bg-app-surface border-2 border-app-text p-1.5 rounded-2xl shadow-retro dark:shadow-none flex gap-1">
+          <div className="bg-app-surface  border-app-text p-1.5 rounded-2xl shadow-retro dark:shadow-none flex gap-1">
             <button 
               onClick={() => setActiveTab('edit')}
               className={`flex-1 py-3 text-[10px] font-black uppercase tracking-[0.2em] rounded-xl transition-all duration-300 ${
@@ -117,7 +117,7 @@ export default function Home({ toggleDarkMode, darkMode }) {
         <div className="lg:grid lg:grid-cols-12 lg:gap-16 items-start">
           {/* Form Column */}
           <div className={`lg:col-span-5 ${activeTab === 'edit' ? 'block' : 'hidden lg:block'}`}>
-            <div className="bg-app-surface border-2 border-app-border rounded-[2.5rem] p-10 shadow-retro dark:shadow-none transition-all hover:shadow-black/10">
+            <div className="bg-app-surface border-2 border-app-border rounded-[2.5rem] px-6 py-10 shadow-retro dark:shadow-none transition-all hover:shadow-black/10">
               <h2 className="text-3xl font-black mb-10 text-app-text uppercase tracking-tight italic flex items-center gap-4">
                 <div className="w-10 h-10 bg-retro-sage rounded-2xl flex items-center justify-center border-2 border-app-text shadow-retro-sm dark:shadow-none">
                   <svg className="w-6 h-6 text-white dark:text-black" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth="2.5">
@@ -187,8 +187,8 @@ export default function Home({ toggleDarkMode, darkMode }) {
       </Modal>
 
       {/* Sticky Mobile Bar */}
-      <div className="lg:hidden fixed bottom-0 left-0 right-0 p-6 z-50">
-        <div className="bg-app-text dark:bg-app-surface text-app-paper dark:text-app-text rounded-[2.5rem] p-3 shadow-2xl flex gap-3 border border-white/10 dark:border-white/5">
+      <div className="lg:hidden fixed  bottom-0 left-0 right-0 p-6 z-50">
+        <div className=" bg-app-text dark:bg-app-surface text-app-paper dark:text-app-text rounded-[2.5rem] p-3 shadow-2xl flex gap-3 border border-white/10 dark:border-white/20">
           <button 
             onClick={handleAddRow}
             className="flex-1 bg-app-paper dark:bg-white/10 text-app-text dark:text-app-text py-4.5 rounded-[2rem] font-black uppercase tracking-widest flex items-center justify-center gap-2 active:scale-95 transition-all text-xs"

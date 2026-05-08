@@ -82,7 +82,7 @@ export default function TimesheetForm({ entries, setEntries, lastAddedId, setLas
         </button>
       </div>
       
-      <div className="space-y-8">
+      <div className="space-y-8 ">
         {entries.map((entry, index) => {
           const dailyHours = calculateHours(entry.start, entry.end);
           const isNew = entry.id === lastAddedId;

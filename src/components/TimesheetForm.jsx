@@ -3,6 +3,7 @@ import { useMemo, useEffect, useRef } from 'react';
 import { calculateHours } from '../utils/hours';
 import Input from './ui/Input';
 import Select from './ui/Select';
+import DatePicker from './ui/DatePicker';
 
 // 1. Built-in SVG Icons
 const IconPlus = () => <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M12 6v6m0 0v6m0-6h6m-6 0H6" /></svg>;
@@ -18,7 +19,6 @@ const WEEK_OPTIONS = [
   { label: 'Week 4', value: 'Week 4' },
 ];
 
-// 2. Generate 10-minute time intervals
 const generateTimeOptions = () => {
   const options = [];
   for (let i = 8 * 60; i <= 20 * 60; i += 10) {
@@ -96,10 +96,9 @@ export default function TimesheetForm({ entries, setEntries, lastAddedId, setLas
               `}
               ref={index === entries.length - 1 ? listEndRef : null}
             >
-              <div className="grid grid-cols-1 md:grid-cols-12 gap-5 items-end">
-                
-                {/* Week Field */}
-                <div className="md:col-span-3">
+              <div className="flex flex-col gap-5">
+                {/* Row 1: Week and Date */}
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
                   <Select 
                     label="Week" 
                     icon={IconHashtag}
@@ -107,61 +106,49 @@ export default function TimesheetForm({ entries, setEntries, lastAddedId, setLas
                     value={entry.week}
                     onChange={(val) => updateEntry(entry.id, 'week', val)}
                   />
-                </div>
-
-                {/* Date Field */}
-                <div className="md:col-span-3">
-                  <Input 
+                  <DatePicker 
                     label="Date" 
-                    type="date" 
                     icon={IconCalendar}
                     value={entry.date}
                     onChange={(e) => updateEntry(entry.id, 'date', e.target.value)}
-                    autoFocus={isNew}
                   />
                 </div>
 
-                {/* Start Time Field */}
-                <div className="md:col-span-2">
+                {/* Row 2: Time and Hours */}
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-5 items-end">
                   <Select 
-                    label="Start" 
+                    label="Start Time" 
                     icon={IconClock}
                     options={timeOptions}
                     value={entry.start}
                     onChange={(val) => updateEntry(entry.id, 'start', val)}
                     placeholder="00:00"
                   />
-                </div>
-
-                {/* End Time Field */}
-                <div className="md:col-span-2">
                   <Select 
-                    label="End" 
+                    label="End Time" 
                     icon={IconClock}
                     options={timeOptions}
                     value={entry.end}
                     onChange={(val) => updateEntry(entry.id, 'end', val)}
                     placeholder="00:00"
                   />
-                </div>
-
-                {/* Total Hours Display */}
-                <div className="md:col-span-2 flex flex-col justify-end">
-                   <label className="block text-xs font-bold text-gray-500 uppercase tracking-wider mb-1.5 ml-1">
-                    Hours
-                  </label>
-                  <div className={`
-                    flex h-11 items-center justify-center font-bold text-sm rounded-xl border transition-colors
-                    ${dailyHours > 0 ? 'bg-blue-600 text-white border-blue-600 shadow-md shadow-blue-100' : 'bg-gray-50 text-gray-400 border-gray-100'}
-                  `}>
-                    {dailyHours || '0'} hr
+                  <div className="flex flex-col">
+                    <label className="block text-xs font-bold text-gray-500 uppercase tracking-wider mb-1.5 ml-1">
+                      Total Hours
+                    </label>
+                    <div className={`
+                      flex h-11 items-center justify-center font-bold text-sm rounded-xl border transition-colors
+                      ${dailyHours > 0 ? 'bg-blue-600 text-white border-blue-600 shadow-md shadow-blue-100' : 'bg-gray-50 text-gray-400 border-gray-100'}
+                    `}>
+                      {dailyHours || '0'} hr
+                    </div>
                   </div>
                 </div>
 
                 {/* Desktop Delete Button */}
                 <button 
                   onClick={() => removeEntryRow(entry.id)} 
-                  className="hidden md:flex absolute -top-3 -right-3 h-9 w-9 rounded-full shadow-xl z-10 items-center justify-center bg-white border border-gray-100 text-gray-400 hover:text-red-600 hover:border-red-200 hover:bg-red-50 transition-all cursor-pointer opacity-0 group-hover:opacity-100"
+                  className="hidden md:flex absolute -top-3 -right-3 h-9 w-9 rounded-full shadow-xl z-10 items-center justify-center bg-white border border-gray-200 text-gray-400 hover:text-red-600 hover:border-red-200 hover:bg-red-50 transition-all cursor-pointer opacity-0 group-hover:opacity-100"
                   title="Remove Entry"
                 >
                   <IconTrash />
@@ -174,7 +161,6 @@ export default function TimesheetForm({ entries, setEntries, lastAddedId, setLas
                 >
                   <IconTrash /> Remove Entry
                 </button>
-                
               </div>
             </div>
           );
